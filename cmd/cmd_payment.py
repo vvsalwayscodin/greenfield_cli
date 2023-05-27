@@ -11,7 +11,7 @@ def payment():
 @click.command('create_account')
 def create_account():
     try:
-        w3 = new_client(ctx)
+        w3 = new_client()
 
         account_address = w3.eth.default_account
 

@@ -6,20 +6,8 @@ from utils import get_password
 
 
 def new_client():
-    rpc_addr = ""
-
-    if config and config.get("RpcAddr"):
-        rpc_addr = config["RpcAddr"]
-    else:
-        raise ValueError("Failed to parse rpc address, please set it in the config file")
-
-    chain_id = ""
-
-    if config and config.get("ChainId"):
-        chain_id = config["ChainId"]
-    else:
-        raise ValueError("Failed to parse chain id, please set it in the config file")
-
+    rpc_addr = config.RpcAddr
+    chain_id = config.ChainId
     keyfile_path = "../key.json"
 
     # Fetch private key from keystore
