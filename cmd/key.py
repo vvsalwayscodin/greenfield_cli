@@ -36,7 +36,7 @@ def decrypt_key(key_json, auth):
     return key_bytes.hex()
 
 
-# Usage example
+# getting args
 config = parse_config_file('../.env')
 password = get_password(config)
 private_key = load_key('../privateKey.txt')
