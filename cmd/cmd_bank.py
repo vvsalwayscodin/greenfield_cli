@@ -1,5 +1,7 @@
 import click
 
+from client_gnfd import new_client
+
 
 @click.group('bank')
 def bank():

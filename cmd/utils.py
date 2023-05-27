@@ -2,7 +2,8 @@ import binascii
 import datetime
 
 from dotenv import dotenv_values
-from eth_utils import ValidationError
+from eth_account import Account
+from web3 import Web3
 
 # data format
 iso8601DateFormatSecond = "%Y-%m-%dT%H:%M:%S"
@@ -121,15 +122,25 @@ def get_password(config):
 
 # load_key loads a secp256k1 private key from the given file.
 def load_key(file):
-    try:
-        with open(file, "r") as fd:
-            key_data = fd.read().strip()
-        return key_data
+    with open(file, "r") as fd:
+        buf = fd.read().strip()
 
-    except (FileNotFoundError, IOError) as e:
-        return "", None, FileNotFoundError(f"Failed to open key file: {str(e)}")
-    except (ValueError, ValidationError) as e:
-        return "", None, ValueError(f"Failed to load private key: {str(e)}")
+    if len(buf) != 64:
+        return "", None, ValueError("Key file must contain 64 hex characters")
+
+    try:
+        pri_bytes = binascii.unhexlify(buf)
+    except binascii.Error:
+        return "", None, ValueError("Invalid hex string")
+
+    if len(pri_bytes) != 32:
+        return "", None, ValueError("Length of key bytes is not equal to 32")
+
+    private_key = buf
+    account = Account.from_key(private_key)
+    address = account.address
+
+    return private_key, address
 
 
 class CmdConfig:

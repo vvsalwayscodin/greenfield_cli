@@ -1,11 +1,11 @@
+import errno
 import json
+import os
 
 import click
-import os
-import errno
 
-from utils import parse_config_file, get_password
-from key import encrypt_key, key
+from key import encrypt_key, Key
+from utils import parse_config_file, get_password, load_key, EncryptScryptN, EncryptScryptP
 
 
 @click.command()
@@ -25,12 +25,13 @@ def create_keystore(private_key_file, new_file_name):
 
     # Load private key from file.
 
-    if new_file_name != "":
-        config = parse_config_file('../.env')
+    config = parse_config_file('../.env')
 
     password = get_password(config)
+    private_key, address = load_key(private_key_file)
 
-    encrypt_content = encrypt_key(key, password[0])
+    key = Key(address, private_key)
+    encrypt_content = encrypt_key(key, password[0], EncryptScryptN, EncryptScryptP)
 
     try:
         with open(key_file_path, "w") as file:

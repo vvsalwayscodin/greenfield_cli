@@ -1,11 +1,11 @@
 from web3 import Web3, Account
 from web3.middleware import geth_poa_middleware
 
-from key import config
+
 from utils import get_password
 
 
-def new_client():
+def new_client(config):
     rpc_addr = config.RpcAddr
     chain_id = config.ChainId
     keyfile_path = "../keys.json"

@@ -10,22 +10,8 @@ def payment():
 
 @click.command('create_account')
 def create_account():
-    try:
-        w3 = new_client()
-
-        account_address = w3.eth.default_account
-
-        tx_hash = w3.create_payment_account(account_address,
-                                            {})  # Replace with the actual method to create a payment account
-
-        receipt = w3.eth.waitForTransactionReceipt(tx_hash)
-
-        if receipt is not None and receipt["status"] == 1:
-            print(f"Create payment account for {account_address} successful, txHash: {tx_hash.hex()}")
-        else:
-            print("Failed to create payment account.")
-    except Exception as e:
-        print(f"Error creating payment account: {str(e)}")
+    w3 = new_client()
+    click.echo(f"{w3}")
 
 
 @click.command('deposit')
