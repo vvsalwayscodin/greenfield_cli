@@ -20,7 +20,7 @@ def balance(address):
 @click.option('--amount', type=str, help="the amount to be sent", default="",
               prompt='Enter the amount to be sent')
 def transfer(to_address, amount):
-    web3 = new_client()
+    web3, account = new_client()
 
     print(web3.eth.accounts)
     click.echo(f"{amount}")

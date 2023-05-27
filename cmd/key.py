@@ -26,29 +26,14 @@ def format_private_key(private_key):
     return private_key
 
 
-def encrypt_key(key, auth, scrypt_n, scrypt_p):
-    key_bytes = bytes.fromhex(key.privateKey)
-    salt = get_random_bytes(32)
-    derived_key = scrypt(auth.encode(), salt, 32, N=scrypt_n, r=8, p=scrypt_p)
-    iv = get_random_bytes(16)
-    cipher = AES.new(derived_key[:16], AES.MODE_CBC, iv)
-    ciphertext = cipher.encrypt(pad(key_bytes, AES.block_size))
-    crypto_struct = {
-        "ciphertext": b64encode(ciphertext).decode(),
-        "cipherparams": {"iv": b64encode(iv).decode()},
-        "kdf": "scrypt",
-        "kdfparams": {
-            "salt": b64encode(salt).decode(),
-            "n": scrypt_n,
-            "r": 8,
-            "p": scrypt_p
-        },
-        "mac": ""
-    }
-    encrypted_key = EncryptedKey(key.address, crypto_struct)
-    return json.dumps(encrypted_key.__dict__)
+def encrypt_key(key, auth):
+    private_key = format_private_key(key.privateKey)
+    key_bytes = bytes.fromhex(private_key)
+    encrypted_data = Account.encrypt(key_bytes, auth)
+    key_json = EncryptedKey(key.address, encrypted_data)
+    return json.dumps(key_json.__dict__)
 
-
-def decrypt_key(key_data, auth):
+def decrypt_key(key_json, auth):
+    key_data = json.loads(key_json)
     key_bytes = Account.decrypt(key_data['crypto'], auth)
     return key_bytes.hex()

@@ -31,7 +31,7 @@ def create_keystore(private_key_file, new_file_name):
     private_key, address = load_key(private_key_file)
 
     key = Key(address, private_key)
-    encrypt_content = encrypt_key(key, password[0], EncryptScryptN, EncryptScryptP)
+    encrypt_content = encrypt_key(key, password[0])
 
     try:
         with open(key_file_path, "w") as file:

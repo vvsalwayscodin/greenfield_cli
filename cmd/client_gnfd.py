@@ -22,20 +22,15 @@ def new_client():
         key_data = json.load(file)
 
     password = get_password(config)
-    print(key_data)
     private_key = decrypt_key(key_data, password[0])
 
     account = Account.from_key(private_key)
 
     host = config.Host
-    options = {
-        "defaultAccount": account,
-        "host": host,
-    }
 
-    web3 = Web3(Web3.HTTPProvider(rpc_addr))
+    web3 = Web3(Web3.HTTPProvider(f"http://{config.RpcAddr}"))
 
-    return web3
+    return web3, account
 
 
 def parse_bucket_and_object(url_path):
