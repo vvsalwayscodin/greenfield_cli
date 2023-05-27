@@ -1,3 +1,12 @@
+import binascii
+import datetime
+
+from dotenv import dotenv_values
+
+# data format
+iso8601DateFormatSecond = "%Y-%m-%dT%H:%M:%S"
+
+# constants
 maxFileSize = 2 * 1024 * 1024 * 1024
 maxListObjects = 100
 publicReadType = "public-read"
@@ -45,4 +54,70 @@ ErrGroupNotExist = "group not exist"
 ErrFileNotExist = "file path not exist"
 
 
+class CmdEnumValue:
+    def __init__(self, enum, default):
+        self.enum = enum
+        self.default = default
+        self.selected = ""
 
+    def set(self, value):
+        if value in self.enum:
+            self.selected = value
+            return None
+        return "allowed values are {}".format(", ".join(self.enum))
+
+    def __str__(self):
+        if self.selected == "":
+            return self.default
+        return self.selected
+
+
+def to_cmd_err(err):
+    print("run command error:", str(err))
+    return None
+
+
+def gen_cmd_err(msg):
+    print("run command error:", msg)
+    return None
+
+
+def parse_chain_info(info, is_bucket_info):
+    if is_bucket_info:
+        print("latest bucket info:")
+    else:
+        print("latest object info:")
+
+    info_str = info.split(" ")
+    for info in info_str:
+        if "create_at:" in info:
+            time_info = info.split(":")
+            timestamp = int(time_info[1])
+            dt = datetime.datetime.fromtimestamp(timestamp, datetime.timezone.utc)
+            t = dt.astimezone(datetime.timezone(datetime.timedelta(hours=8)))
+            info = time_info[0] + ":" + t.strftime(iso8601DateFormatSecond)
+        if "checksums:" in info:
+            hash_info = info.split(":")
+            info = hash_info[0] + ":" + binascii.hexlify(hash_info[1].encode()).decode()
+        print(info)
+
+
+class CmdConfig:
+    def __init__(self):
+        self.RpcAddr = ""
+        self.ChainId = ""
+        self.PasswordFile = ""
+        self.Host = ""
+
+
+def parse_config_file(file_path):
+    config = CmdConfig()
+    try:
+        env_values = dotenv_values(file_path)
+        config.RpcAddr = env_values.get("RPC_ADDR", "")
+        config.ChainId = env_values.get("CHAIN_ID", "")
+        config.PasswordFile = env_values.get("PASSWORD_FILE", "")
+        config.Host = env_values.get("HOST", "")
+        return config, None
+    except Exception as e:
+        return None, ValueError("failed to parse config file: {}".format(str(e)))
