@@ -1,29 +1,26 @@
 from web3 import Web3, Account
-
 from web3.middleware import geth_poa_middleware
 
 from key import config
 from utils import get_password
 
 
-def new_client(ctx):
-    rpc_addr = ctx.get("rpcAddr")
-    if not rpc_addr:
-        if config and config.get("RpcAddr"):
-            rpc_addr = config["RpcAddr"]
-        else:
-            raise ValueError("Failed to parse rpc address, please set it in the config file")
+def new_client():
+    rpc_addr = ""
 
-    chain_id = ctx.get("chainId")
-    if not chain_id:
-        if config and config.get("ChainId"):
-            chain_id = config["ChainId"]
-        else:
-            raise ValueError("Failed to parse chain id, please set it in the config file")
+    if config and config.get("RpcAddr"):
+        rpc_addr = config["RpcAddr"]
+    else:
+        raise ValueError("Failed to parse rpc address, please set it in the config file")
 
-    keyfile_path = ctx.get("keystore")
-    if not keyfile_path:
-        keyfile_path = "../key.json"
+    chain_id = ""
+
+    if config and config.get("ChainId"):
+        chain_id = config["ChainId"]
+    else:
+        raise ValueError("Failed to parse chain id, please set it in the config file")
+
+    keyfile_path = "../key.json"
 
     # Fetch private key from keystore
     with open(keyfile_path, "r") as keyfile:
