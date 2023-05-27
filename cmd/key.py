@@ -9,7 +9,7 @@ class Key:
         self.PrivateKey = private_key
 
 
-class encryptedKey:
+class EncryptedKey:
     def __init__(self, address, crypto):
         self.address = address
         self.crypto = crypto
@@ -21,27 +21,27 @@ def format_private_key(private_key):
     return private_key
 
 
-def EncryptKey(key, auth):
+def encrypt_key(key, auth):
     private_key = format_private_key(key.PrivateKey)
     key_bytes = bytes.fromhex(private_key)
     encrypted_data = Account.encrypt(key_bytes, auth)
-    key_json = encryptedKey(key.Address, encrypted_data)
+    key_json = EncryptedKey(key.Address, encrypted_data)
     return json.dumps(key_json.__dict__)
 
 
-def DecryptKey(key_json, auth):
+def decrypt_key(key_json, auth):
     key_data = json.loads(key_json)
     key_bytes = Account.decrypt(key_data['crypto'], auth)
     return key_bytes.hex()
 
 
 # Usage example
-key = Key('gnfd-testnet-fullnode-cosmos-us.bnbchain.org:9090',
-          '926353f09cfe33965a2d77db7d3c108da309c1a263470aa95e9c6ef16e2cf1a9')
-auth = 'Duk@nuk@suk@2003!'
+key = Key('',
+          '')
+auth = ''
 
-encrypted_key_json = EncryptKey(key, auth)
+encrypted_key_json = encrypt_key(key, auth)
 print('Encrypted Key:', encrypted_key_json)
 
-decrypted_private_key = DecryptKey(encrypted_key_json, auth)
+decrypted_private_key = decrypt_key(encrypted_key_json, auth)
 print('Decrypted Private Key:', decrypted_private_key)
