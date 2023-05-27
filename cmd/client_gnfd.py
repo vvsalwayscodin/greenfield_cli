@@ -3,6 +3,7 @@ import json
 from web3 import Web3, Account
 
 from key import decrypt_key
+from load import ctx
 from utils import get_password, parse_config_file
 
 
@@ -28,9 +29,9 @@ def new_client():
 
     host = config.Host
 
-    web3 = Web3(Web3.HTTPProvider(f"http://{config.RpcAddr}"))
+    client = ctx.call(f"Client.create({rpc_addr}, {chain_id})")
 
-    return web3, account
+    return client
 
 
 def parse_bucket_and_object(url_path):
