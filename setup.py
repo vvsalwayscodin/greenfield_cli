@@ -1,15 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    name='gnfd-cmd',
+    name='cmd',
     version='0.1.0',
-    py_modules=['./cmd/main.py'],
-    install_requires=[
-        'Click',
-    ],
+    packages=find_packages(),
+    include_package_data=True,
     entry_points={
         'console_scripts': [
-            'gnfd-cmd = main.py:gnfd',
+            'gnfd-cmd = cmd.main:gnfd',
         ],
     },
 )
