@@ -76,7 +76,7 @@ gnfd-cmd [command-name] -h
 
 The following command can be used to obtain help information for subcommands. For example, you can use "gnfd-cmd object update -h" to obtain the help info to update object.
 ```
-gnfd-cmd [command-name][subcommand-name] -h
+gnfd [command-name][subcommand-name] -h
 ```
 
 ### Precautions
@@ -101,7 +101,7 @@ You need also write your password on the password file which set by the "passwor
 Assuming that the current private key hex string is written as plaintext in the file key.txt, the following command can be used to generate a keystore file called key.json:
 ```
 // generate keystore key.json
-gnfd-cmd create-keystore --privKeyFile key.txt key.json
+gnfd create-keystore --privKeyFile key.txt key.json
 ```
 
 After the keystore file has been generated, you can delete the private key file which contains the plaintext of private key.
@@ -109,16 +109,16 @@ After the keystore file has been generated, you can delete the private key file 
 #### Account Operations
 ```
 // transfer to an account in Greenfield
-gnfd-cmd bank transfer --toAddress 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d --amount 12345
+gnfd bank transfer --toAddress 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d --amount 12345
 
 // query the balance of account
-gnfd-cmd bank balance --address 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d
+gnfd bank balance --address 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d
 
 // create a payment account
-gnfd-cmd payment create-account
+gnfd payment create-account
 
 // list payment accounts under owner or a address with optional flag --user 
-gnfd-cmd payment ls --owner 0x5a64aCD8DC6Ce41d824638419319409246A9b41A
+gnfd payment ls --owner 0x5a64aCD8DC6Ce41d824638419319409246A9b41A
 ```
 
 #### Storage Provider Operations
@@ -126,13 +126,13 @@ gnfd-cmd payment ls --owner 0x5a64aCD8DC6Ce41d824638419319409246A9b41A
 THis command is used to list the SP and query the information of SP.
 ```
 // list storage providers
-gnfd-cmd sp ls
+gnfd sp ls
 
 // get storage provider info
-gnfd-cmd sp head https://gnfd-testnet-sp-1.nodereal.io
+gnfd sp head https://gnfd-testnet-sp-1.nodereal.io
 
 // get quota and storage price of storage provider:
-gnfd-cmd sp get-price https://gnfd-testnet-sp-1.nodereal.io
+gnfd sp get-price https://gnfd-testnet-sp-1.nodereal.io
 ```
 
 #### Bucket Operations
@@ -144,11 +144,11 @@ and then select the target SP to which the bucket will be created on.
 // create bucket. 
 // The targt primary SP address to which the bucket will be created on need to be set by --primarySP flag.
 // If the primary SP has not been not set, the cmd will choose first SP in the SP list which obtain from chain as the primary SP.
-gnfd-cmd bucket create gnfd://gnfd-bucket
+gnfd bucket create gnfd://gnfd-bucket
 
 // update bucket visibility, charged quota or payment address
-(1) gnfd-cmd bucket update --visibility=public-read gnfd://gnfd-bucket
-(2) gnfd-cmd bucket update --chargedQuota 50000 gnfd://gnfd-bucket
+(1) gnfd bucket update --visibility=public-read gnfd://gnfd-bucket
+(2) gnfd bucket update --chargedQuota 50000 gnfd://gnfd-bucket
 ```
 #### Upload/Download Operations
 
@@ -157,21 +157,21 @@ gnfd-cmd bucket create gnfd://gnfd-bucket
 The "object put" command is used to upload a file from local which is less than 2G. The bucket name and object name should be replaced with specific names and
 the file-path should replace by the file path of local system.
 ```
-gnfd-cmd object put --contentType "text/xml" --visibility private file-path gnfd://gnfd-bucket/gnfd-object
+gnfd object put --contentType "text/xml" --visibility private file-path gnfd://gnfd-bucket/gnfd-object
 ```
 if the object name has not been set, the command will use the file name as object name. If you need upload a file to the folder, you need to run "object put" command with "--folder" flag.
 
 
 The tool also support create a folder on bucket by "object create-folder" command.
 ```
-gnfd-cmd object create-folder gnfd://gnfd-bucket/testfolder
+gnfd object create-folder gnfd://gnfd-bucket/testfolder
 ```
 
 (2) download object
 
 The "object get" command is used to download an object to local path. This command will return the local file path where the object will be downloaded and the file size after successful execution.
 ```
-gnfd-cmd object get gnfd://gnfd-bucket/gnfd-object file-path 
+gnfd object get gnfd://gnfd-bucket/gnfd-object file-path 
 ```
 The filepath can be a specific file path, a directory path, or not set at all. 
 If not set, the command will download the content to a file with the same name as the object name in the current directory. If it is set as a directory, the command will download the object file into the directory.
@@ -181,16 +181,16 @@ If not set, the command will download the content to a file with the same name a
 The group commands is used to create group, update group members, delete group and query group info.
 ```
 // create group
-gnfd-cmd group create gnfd://groupname
+gnfd group create gnfd://groupname
 
 // update group member
-gnfd-cmd group update --addMembers 0xca807A58caF20B6a4E3eDa3531788179E5bc816b gnfd://groupname
+gnfd group update --addMembers 0xca807A58caF20B6a4E3eDa3531788179E5bc816b gnfd://groupname
 
 // head group member
-gnfd-cmd group head-member --headMember 0xca807A58caF20B6a4E3eDa3531788179E5bc816b gnfd://groupname
+gnfd group head-member --headMember 0xca807A58caF20B6a4E3eDa3531788179E5bc816b gnfd://groupname
 
 // delete group
-gnfd-cmd group delete gnfd://group-name
+gnfd group delete gnfd://group-name
 ```
 #### Policy  Operations
 ```
@@ -200,67 +200,67 @@ gnfd-cmd group delete gnfd://group-name
 // The policy effect can set to be allow or deny by --effect
 
 // grant object operation permissions to a group
-gnfd-cmd policy put-object-policy --groupId 128  --actions get,delete  gnfd://gnfd-bucket/gnfd-object
+gnfd policy put-object-policy --groupId 128  --actions get,delete  gnfd://gnfd-bucket/gnfd-object
 
 // grant object operation permissions to an account
-gnfd-cmd policy put-object-policy --grantee 0x169321fC04A12c16...  --actions get,delete gnfd://gnfd-bucket/gnfd-object
+gnfd policy put-object-policy --grantee 0x169321fC04A12c16...  --actions get,delete gnfd://gnfd-bucket/gnfd-object
 
 // grant bucket operation permissions to a group
-gnfd-cmd policy put-bucket-policy --groupId 130 --actions delete,update,createObj  gnfd://gnfd-bucket
+gnfd policy put-bucket-policy --groupId 130 --actions delete,update,createObj  gnfd://gnfd-bucket
 
 // grant bucket operation permissions to an account
-gnfd-cmd policy put-bucket-policy  --grantee 0x169321fC04A12c16...  --actions delete,update  gnfd://gnfd-bucket
+gnfd policy put-bucket-policy  --grantee 0x169321fC04A12c16...  --actions delete,update  gnfd://gnfd-bucket
 
 ```
 #### List Operations
 ```
 // list buckets
-gnfd-cmd bucket ls
+gnfd bucket ls
 
 // list objects
-gnfd-cmd object ls gnfd://gnfd-bucket
+gnfd object ls gnfd://gnfd-bucket
 
 ```
 #### Delete Operations
 ```
 // delete bucekt
-gnfd-cmd bucket delete gnfd://gnfd-bucket
+gnfd bucket delete gnfd://gnfd-bucket
 
 //delete object
-gnfd-cmd object delete gnfd://gnfd-bucket/gnfd-object
+gnfd object delete gnfd://gnfd-bucket/gnfd-object
 
 ```
 #### Head Operations
 
 ```
 // head bucekt
-gnfd-cmd bucket head gnfd://gnfd-bucket
+gnfd bucket head gnfd://gnfd-bucket
 
 // head object
-gnfd-cmd object head gnfd://gnfd-bucket/gnfd-object
+gnfd object head gnfd://gnfd-bucket/gnfd-object
 
 // head Group
-gnfd-cmd group head gnfd://groupname
+gnfd group head gnfd://groupname
 ```
 #### Payment Operations
 ```
 // get quota info
-gnfd-cmd payment quota-info gnfd://gnfd-bucket
+gnfd payment quota-info gnfd://gnfd-bucket
 
 // buy quota
-gnfd-cmd payment buy-quota --chargedQuota 1000000 gnfd://gnfd-bucket
+gnfd payment buy-quota --chargedQuota 1000000 gnfd://gnfd-bucket
 
 // deposit from owner's account to the payment account 
-gnfd-cmd payment deposit --toAddress 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d --amount 12345
+gnfd payment deposit --toAddress 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d --amount 12345
 
 // witharaw from a payment account to owner's account
-gnfd-cmd payment withdraw --fromAddress 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d --amount 12345
+gnfd payment withdraw --fromAddress 0xF678C3734F0EcDCC56cDE2df2604AC1f8477D55d --amount 12345
 ```
 #### Hash Operations
 
 ```
 // compute integrity hash
-gnfd-cmd object get-hash file-path
+gnfd object get-hash file-path
 
 ```
 #### Crosschain Operations
@@ -269,13 +269,13 @@ gnfd-cmd object get-hash file-path
 gnfd-cmd crosschain transfer-out --toAddress "0x2eDD53b48726a887c98aDAb97e0a8600f855570d" --amount 12345
 
 // mirror a group to BSC
-gnfd-cmd crosschain mirror --resource group --id 1
+gnfd crosschain mirror --resource group --id 1
 
 // mirror a bucket to BSC
-gnfd-cmd crosschain mirror --resource bucket --id 1
+gnfd crosschain mirror --resource bucket --id 1
 
 // mirror a object to BSC
-gnfd-cmd crosschain mirror --resource object --id 1
+gnfd crosschain mirror --resource object --id 1
 ```
 
 ## Reference
