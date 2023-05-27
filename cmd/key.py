@@ -1,6 +1,7 @@
 import json
 from web3 import Web3
 from eth_account import Account
+from utils import parse_config_file, load_key, get_password
 
 
 class Key:
@@ -36,12 +37,15 @@ def decrypt_key(key_json, auth):
 
 
 # Usage example
-key = Key('',
-          '')
-auth = ''
+config = parse_config_file('../.env')
+print(config)
 
-encrypted_key_json = encrypt_key(key, auth)
-print('Encrypted Key:', encrypted_key_json)
-
-decrypted_private_key = decrypt_key(encrypted_key_json, auth)
-print('Decrypted Private Key:', decrypted_private_key)
+# key = Key('',
+#           '')
+# auth = ''
+#
+# encrypted_key_json = encrypt_key(key, auth)
+# print('Encrypted Key:', encrypted_key_json)
+#
+# decrypted_private_key = decrypt_key(encrypted_key_json, auth)
+# print('Decrypted Private Key:', decrypted_private_key)
