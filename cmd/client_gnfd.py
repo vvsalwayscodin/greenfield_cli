@@ -8,7 +8,7 @@ from utils import get_password
 def new_client():
     rpc_addr = config.RpcAddr
     chain_id = config.ChainId
-    keyfile_path = "../key.json"
+    keyfile_path = "../keys.json"
 
     # Fetch private key from keystore
     with open(keyfile_path, "r") as keyfile:
