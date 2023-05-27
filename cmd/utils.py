@@ -104,6 +104,22 @@ def parse_chain_info(info, is_bucket_info):
         print(info)
 
 
+# get password
+def get_password(config):
+    filepath = ""
+    if config.PasswordFile != "":
+        filepath = config.PasswordFile
+    else:
+        filepath = "password.txt"
+
+    try:
+        with open(filepath, "r") as file:
+            password_content = file.read().strip()
+            return password_content, None
+    except (FileNotFoundError, IOError) as e:
+        return "", FileNotFoundError(f"Failed to read password file: {str(e)}")
+
+
 # load_key loads a secp256k1 private key from the given file.
 def load_key(file):
     try:
