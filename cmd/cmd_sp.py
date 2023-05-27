@@ -12,15 +12,15 @@ def ls():
 
 
 @click.command('head')
-@click.argument('URL')
-def head(URL):
-    click.echo(f"Storage provider info by {URL}")
+@click.argument('url')
+def head(url):
+    click.echo(f"Storage provider info by {url}")
 
 
-@click.command('ger-price')
-@click.argument('URL')
-def get_price(URL):
-    click.echo(f"Quota price by {URL}")
+@click.command()
+@click.argument('url')
+def get_price(url):
+    click.echo(f"Quota price by {url}")
 
 
 sp.add_command(ls)
