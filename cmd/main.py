@@ -6,7 +6,7 @@ from cmd_crosschain import crosschain
 from cmd_keystore import create_keystore
 from cmd_payment import payment
 from cmd_sp import sp
-
+from cmd_bank import  bank
 
 @click.group()
 def gnfd():
@@ -19,3 +19,4 @@ gnfd.add_command(crosschain)
 gnfd.add_command(sp)
 gnfd.add_command(bucket)
 gnfd.add_command(payment)
+gnfd.add_command(bank)
