@@ -39,13 +39,12 @@ def decrypt_key(key_json, auth):
 # Usage example
 config = parse_config_file('../.env')
 password = get_password(config)
+private_key = load_key('../privateKey.txt')
+address = config.RpcAddr
 
-key = Key('',
-          '')
+key = Key(address, private_key)
 auth = password[0]
 
 encrypted_key_json = encrypt_key(key, auth)
-print('Encrypted Key:', encrypted_key_json)
 
 decrypted_private_key = decrypt_key(encrypted_key_json, auth)
-print('Decrypted Private Key:', decrypted_private_key)
