@@ -2,7 +2,6 @@ import binascii
 import datetime
 
 from dotenv import dotenv_values
-from eth_keys import keys
 from eth_utils import ValidationError
 
 # data format
@@ -125,11 +124,7 @@ def load_key(file):
     try:
         with open(file, "r") as fd:
             key_data = fd.read().strip()
-
-        private_key = keys.PrivateKey(key_data)
-        public_key = private_key.public_key
-
-        return key_data, public_key, None
+        return key_data
 
     except (FileNotFoundError, IOError) as e:
         return "", None, FileNotFoundError(f"Failed to open key file: {str(e)}")
@@ -156,10 +151,3 @@ def parse_config_file(file_path):
         return config
     except Exception as e:
         return None, ValueError("failed to parse config file: {}".format(str(e)))
-
-
-config = parse_config_file('../.env')
-
-password = get_password(config)
-
-print(password)
