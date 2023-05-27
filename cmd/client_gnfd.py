@@ -23,7 +23,7 @@ def new_client(ctx):
 
     keyfile_path = ctx.get("keystore")
     if not keyfile_path:
-        keyfile_path = ".//keys.json"
+        keyfile_path = ".//key.json"
 
     # Fetch private key from keystore
     with open(keyfile_path, "r") as keyfile:
