@@ -35,7 +35,23 @@ def ls(owner_address):
     click.echo(f"{owner_address}")
 
 
+@click.command('buy-quota')
+@click.option('--charged_quota ', type=str, help="indicate the target quota to be set for the bucket",
+              prompt='Enter the target quota to be set for the bucket')
+@click.argument('bucket_url')
+def buy_quota(charged_quota, bucket_url):
+    click.echo(f"{charged_quota}")
+
+
+@click.command('quota-info')
+@click.argument('bucket_url')
+def quota_info(bucket_url):
+    click.echo(f"{bucket_url}")
+
+
 payment.add_command(create_account)
 payment.add_command(deposit)
 payment.add_command(withdraw)
 payment.add_command(ls)
+payment.add_command(buy_quota)
+payment.add_command(quota_info)
