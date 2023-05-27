@@ -38,14 +38,14 @@ def decrypt_key(key_json, auth):
 
 # Usage example
 config = parse_config_file('../.env')
-print(config)
+password = get_password(config)
 
-# key = Key('',
-#           '')
-# auth = ''
-#
-# encrypted_key_json = encrypt_key(key, auth)
-# print('Encrypted Key:', encrypted_key_json)
-#
-# decrypted_private_key = decrypt_key(encrypted_key_json, auth)
-# print('Decrypted Private Key:', decrypted_private_key)
+key = Key('',
+          '')
+auth = password[0]
+
+encrypted_key_json = encrypt_key(key, auth)
+print('Encrypted Key:', encrypted_key_json)
+
+decrypted_private_key = decrypt_key(encrypted_key_json, auth)
+print('Decrypted Private Key:', decrypted_private_key)

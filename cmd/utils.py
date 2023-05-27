@@ -156,10 +156,3 @@ def parse_config_file(file_path):
         return config
     except Exception as e:
         return None, ValueError("failed to parse config file: {}".format(str(e)))
-
-
-config = parse_config_file('../.env')
-
-password = get_password(config)
-
-print(password)
