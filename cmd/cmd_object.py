@@ -115,6 +115,12 @@ def hash(file_path):
     click.echo(f"{file_path}")
 
 
+@click.command('delete')
+@click.argument('object_url')
+def delete(object_url):
+    click.echo(f"{object_url}")
+
+
 object.add_command(head)
 object.add_command(hash)
 object.add_command(put)
@@ -124,6 +130,7 @@ object.add_command(get_object)
 object.add_command(get_progress)
 object.add_command(cancel)
 object.add_command(ls)
+object.add_command(delete)
 
 
 @click.group('policy')
