@@ -36,7 +36,7 @@ def ls(owner_address):
 
 
 @click.command('buy-quota')
-@click.option('--charged_quota ', type=str, help="indicate the target quota to be set for the bucket",
+@click.option('--charged_quota', type=str, help="indicate the target quota to be set for the bucket",
               prompt='Enter the target quota to be set for the bucket')
 @click.argument('bucket_url')
 def buy_quota(charged_quota, bucket_url):
