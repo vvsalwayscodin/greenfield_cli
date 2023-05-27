@@ -23,7 +23,7 @@ def deposit(to_address, amount):
 @click.option('--from_address', type=str, help="the stream account", prompt='Enter the stream account')
 @click.option('--amount', type=str, help="the amount to be deposited", default="",
               prompt='Enter the amount to be deposited')
-def withdraw(to_address, amount):
+def withdraw(from_address, amount):
     click.echo(f"{amount}")
 
 

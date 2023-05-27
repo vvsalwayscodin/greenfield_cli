@@ -7,6 +7,7 @@ from cmd_keystore import create_keystore
 from cmd_payment import payment
 from cmd_sp import sp
 from cmd_bank import  bank
+from cmd_object import  policy, object
 
 @click.group()
 def gnfd():
@@ -20,3 +21,5 @@ gnfd.add_command(sp)
 gnfd.add_command(bucket)
 gnfd.add_command(payment)
 gnfd.add_command(bank)
+gnfd.add_command(policy)
+gnfd.add_command(object)

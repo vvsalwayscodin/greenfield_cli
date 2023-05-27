@@ -16,9 +16,6 @@ def transfer(to_address, amount):
     click.echo(message)
 
 
-crosschain.add_command(transfer)
-
-
 @click.command('mirror')
 @click.option('-rsc', '--resource', type=str, help="Resource type(group, bucket, object)",
               prompt="Enter resource type(group, bucket, object)")
@@ -28,3 +25,5 @@ def mirror(resource, resource_id):
 
 
 crosschain.add_command(mirror)
+
+crosschain.add_command(transfer)
