@@ -153,6 +153,13 @@ def parse_config_file(file_path):
         config.ChainId = env_values.get("CHAIN_ID", "")
         config.PasswordFile = env_values.get("PASSWORD_FILE", "")
         config.Host = env_values.get("HOST", "")
-        return config, None
+        return config
     except Exception as e:
         return None, ValueError("failed to parse config file: {}".format(str(e)))
+
+
+config = parse_config_file('../.env')
+
+password = get_password(config)
+
+print(password)
