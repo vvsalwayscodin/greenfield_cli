@@ -20,11 +20,11 @@ crosschain.add_command(transfer)
 
 
 @click.command('mirror')
-@click.option('-r', '--resource', type=str, help="Resource type(group, bucket, object)",
+@click.option('-rsc', '--resource', type=str, help="Resource type(group, bucket, object)",
               prompt="Enter resource type(group, bucket, object)")
-@click.option('-i', '--r_id', type=str, help='Resource id', prompt="Enter resource id")
-def mirror(resource, r_id):
-    click.echo(resource, r_id)
+@click.option('-rsc_id', '--resource_id', type=str, help='Resource id', prompt="Enter resource id")
+def mirror(resource, resource_id):
+    click.echo(resource, resource_id)
 
 
 crosschain.add_command(mirror)
