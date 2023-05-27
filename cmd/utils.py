@@ -2,6 +2,8 @@ import binascii
 import datetime
 
 from dotenv import dotenv_values
+from eth_keys import keys
+from eth_utils import ValidationError
 
 # data format
 iso8601DateFormatSecond = "%Y-%m-%dT%H:%M:%S"
@@ -100,6 +102,23 @@ def parse_chain_info(info, is_bucket_info):
             hash_info = info.split(":")
             info = hash_info[0] + ":" + binascii.hexlify(hash_info[1].encode()).decode()
         print(info)
+
+
+# load_key loads a secp256k1 private key from the given file.
+def load_key(file):
+    try:
+        with open(file, "r") as fd:
+            key_data = fd.read().strip()
+
+        private_key = keys.PrivateKey(key_data)
+        public_key = private_key.public_key
+
+        return key_data, public_key, None
+
+    except (FileNotFoundError, IOError) as e:
+        return "", None, FileNotFoundError(f"Failed to open key file: {str(e)}")
+    except (ValueError, ValidationError) as e:
+        return "", None, ValueError(f"Failed to load private key: {str(e)}")
 
 
 class CmdConfig:
