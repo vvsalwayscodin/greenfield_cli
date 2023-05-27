@@ -49,7 +49,6 @@ def encrypt_key(key, auth, scrypt_n, scrypt_p):
     return json.dumps(encrypted_key.__dict__)
 
 
-def decrypt_key(key_json, auth):
-    key_data = json.loads(key_json)
+def decrypt_key(key_data, auth):
     key_bytes = Account.decrypt(key_data['crypto'], auth)
     return key_bytes.hex()

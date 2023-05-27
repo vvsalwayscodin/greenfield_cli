@@ -138,7 +138,7 @@ def load_key(file):
 
     private_key = buf
     account = Account.from_key(private_key)
-    address = account.address
+    address = Web3.to_checksum_address(account.address)
 
     return private_key, address
 

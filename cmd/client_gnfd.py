@@ -1,31 +1,41 @@
+import json
+
 from web3 import Web3, Account
-from web3.middleware import geth_poa_middleware
+
+from key import decrypt_key
+from utils import get_password, parse_config_file
 
 
-from utils import get_password
+def new_client():
+    config = parse_config_file('../.env')
 
-
-def new_client(config):
     rpc_addr = config.RpcAddr
-    chain_id = config.ChainId
-    keyfile_path = "../keys.json"
+    if not rpc_addr:
+        raise ValueError("Failed to parse rpc address. Please set it in the config file.")
 
-    # Fetch private key from keystore
-    with open(keyfile_path, "r") as keyfile:
-        key_json = keyfile.read()
+    chain_id = config.ChainId
+    if not chain_id:
+        raise ValueError("Failed to parse chain id. Please set it in the config file.")
+
+    key_file = "../key.json"  # Specify the path to your keystore file
+    with open(key_file, "r") as file:
+        key_data = json.load(file)
 
     password = get_password(config)
-
-    private_key = Account.decrypt(key_json, password)
+    print(key_data)
+    private_key = decrypt_key(key_data, password[0])
 
     account = Account.from_key(private_key)
 
-    w3 = Web3(Web3.HTTPProvider(rpc_addr))
-    w3.middleware_onion.inject(geth_poa_middleware, layer=0)
-    w3.eth.default_account = account.address
-    w3.eth.chainId = chain_id
+    host = config.Host
+    options = {
+        "defaultAccount": account,
+        "host": host,
+    }
 
-    return w3
+    web3 = Web3(Web3.HTTPProvider(rpc_addr))
+
+    return web3
 
 
 def parse_bucket_and_object(url_path):

@@ -35,7 +35,7 @@ def create_keystore(private_key_file, new_file_name):
 
     try:
         with open(key_file_path, "w") as file:
-            json.dump(encrypt_content, file)
+            json.dump(encrypt_content, file, ensure_ascii=False)
             file.close()
         return key_file_path
     except IOError as e:
