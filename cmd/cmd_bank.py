@@ -20,8 +20,7 @@ def balance(address):
 @click.option('--amount', type=str, help="the amount to be sent", default="",
               prompt='Enter the amount to be sent')
 def transfer(to_address, amount):
-    client = new_client()
-    print(client)
+    new_client()
 
 
 bank.add_command(balance)

@@ -1,9 +1,9 @@
 import json
 
-from web3 import Web3, Account
+import requests.api
+from web3 import Account
 
 from key import decrypt_key
-from load import ctx
 from utils import get_password, parse_config_file
 
 
@@ -29,9 +29,7 @@ def new_client():
 
     host = config.Host
 
-    client = ctx.call("createClient", rpc_addr, chain_id)
-
-    return client
+    requests.api.post('http://localhost:3000/create-client', {rpc_addr, chain_id})
 
 
 def parse_bucket_and_object(url_path):
