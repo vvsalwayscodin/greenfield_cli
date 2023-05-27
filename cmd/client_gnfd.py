@@ -29,7 +29,7 @@ def new_client():
 
     host = config.Host
 
-    client = ctx.call(f"Client.create({rpc_addr}, {chain_id})")
+    client = ctx.call("createClient", rpc_addr, chain_id)
 
     return client
 
